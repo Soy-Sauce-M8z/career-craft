@@ -16,22 +16,22 @@ export const Contribute = () => {
         <form onSubmit={(e) => e.preventDefault()} style={{ display: 'flex', flexDirection: 'column', gap: '1.5rem' }}>
           <div style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
             <label style={{ color: 'var(--text-secondary)', fontSize: '0.9rem' }}>Course Title</label>
-            <input type="text" placeholder="e.g. Intro to Docker Containers" style={{ background: 'rgba(0,0,0,0.5)', border: '1px solid var(--glass-border)', color: 'white', padding: '0.75rem', borderRadius: '4px', width: '100%', fontFamily: 'inherit' }} />
+            <input type="text" placeholder="e.g. Intro to Docker Containers" style={{ background: 'var(--bg-input)', border: '1px solid var(--glass-border)', color: 'var(--text-primary)', padding: '0.75rem', borderRadius: '4px', width: '100%', fontFamily: 'inherit' }} />
           </div>
 
           <div style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
             <label style={{ color: 'var(--text-secondary)', fontSize: '0.9rem' }}>Description</label>
-            <textarea rows="4" placeholder="Describe what students will learn..." style={{ background: 'rgba(0,0,0,0.5)', border: '1px solid var(--glass-border)', color: 'white', padding: '0.75rem', borderRadius: '4px', width: '100%', resize: 'vertical', fontFamily: 'inherit' }}></textarea>
+            <textarea rows="4" placeholder="Describe what students will learn..." style={{ background: 'var(--bg-input)', border: '1px solid var(--glass-border)', color: 'var(--text-primary)', padding: '0.75rem', borderRadius: '4px', width: '100%', resize: 'vertical', fontFamily: 'inherit' }}></textarea>
           </div>
 
           <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1rem' }}>
             <div style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
               <label style={{ color: 'var(--text-secondary)', fontSize: '0.9rem' }}>Target Skills (Comma separated)</label>
-              <input type="text" placeholder="DevOps, Linux" style={{ background: 'rgba(0,0,0,0.5)', border: '1px solid var(--glass-border)', color: 'white', padding: '0.75rem', borderRadius: '4px', width: '100%', fontFamily: 'inherit' }} />
+              <input type="text" placeholder="DevOps, Linux" style={{ background: 'var(--bg-input)', border: '1px solid var(--glass-border)', color: 'var(--text-primary)', padding: '0.75rem', borderRadius: '4px', width: '100%', fontFamily: 'inherit' }} />
             </div>
             <div style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
               <label style={{ color: 'var(--text-secondary)', fontSize: '0.9rem' }}>Difficulty Level</label>
-              <select style={{ background: 'rgba(0,0,0,0.5)', border: '1px solid var(--glass-border)', color: 'white', padding: '0.75rem', borderRadius: '4px', width: '100%', fontFamily: 'inherit' }}>
+              <select style={{ background: 'var(--bg-input)', border: '1px solid var(--glass-border)', color: 'var(--text-primary)', padding: '0.75rem', borderRadius: '4px', width: '100%', fontFamily: 'inherit' }}>
                 <option>Beginner</option>
                 <option>Intermediate</option>
                 <option>Advanced</option>
@@ -41,7 +41,7 @@ export const Contribute = () => {
 
           <div style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
             <label style={{ color: 'var(--text-secondary)', fontSize: '0.9rem' }}>Interactive Demo / Embed Link</label>
-            <input type="url" placeholder="https://your-interactive-sandbox-link.com" style={{ background: 'rgba(0,0,0,0.5)', border: '1px solid var(--glass-border)', color: 'white', padding: '0.75rem', borderRadius: '4px', width: '100%', fontFamily: 'inherit' }} />
+            <input type="url" placeholder="https://your-interactive-sandbox-link.com" style={{ background: 'var(--bg-input)', border: '1px solid var(--glass-border)', color: 'var(--text-primary)', padding: '0.75rem', borderRadius: '4px', width: '100%', fontFamily: 'inherit' }} />
             <span style={{ fontSize: '0.8rem', color: 'var(--text-secondary)' }}>Link a sandbox environment or video tutorial that will be embedded into the platform.</span>
           </div>
 

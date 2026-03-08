@@ -7,7 +7,7 @@
   box-shadow: var(--glass-shadow);
   border-radius: 16px;
   padding: var(--spacing-lg);
-  transition: transform var(--transition-fast), border-color var(--transition-fast);
+  transition: transform var(--transition-fast), border-color var(--transition-fast), background-color var(--transition-normal), color var(--transition-normal);
 }
 
 .glass-panel:hover {
@@ -15,61 +15,101 @@
   transform: translateY(-2px);
 }
 
-/* Neon Button */
+/* Base Professional Button */
 .btn-neon {
-  background: transparent;
+  background: var(--bg-input-card);
   color: var(--neon-cyan);
   font-family: var(--font-family-primary);
   font-weight: 600;
   font-size: 1rem;
   padding: 0.75rem 1.5rem;
-  border: 1px solid var(--neon-cyan);
+  border: 1px solid var(--glass-border);
   border-radius: 8px;
   cursor: pointer;
   position: relative;
   overflow: hidden;
   transition: all var(--transition-fast);
-  text-transform: uppercase;
-  letter-spacing: 1px;
+  letter-spacing: 0.5px;
 }
 
 .btn-neon:hover {
-  background: var(--neon-cyan);
-  color: var(--bg-dark);
-  transform: scale(1.02);
+  border-color: var(--neon-cyan);
+  background: var(--bg-card-hover);
+  transform: translateY(-1px);
 }
 
 .btn-neon:active {
-  transform: scale(0.98);
+  transform: translateY(1px);
 }
 
 .btn-neon-purple {
   color: var(--neon-purple);
-  border-color: var(--neon-purple);
+  border-color: var(--glass-border);
 }
 
 .btn-neon-purple:hover {
-  background: var(--neon-purple);
-  color: #fff;
+  border-color: var(--neon-purple);
+  background: var(--bg-card-hover);
 }
 
 .btn-neon-red {
   color: var(--neon-red);
-  border-color: var(--neon-red);
+  border-color: var(--glass-border);
 }
 
 .btn-neon-red:hover {
-  background: var(--neon-red);
-  color: #fff;
+  border-color: var(--neon-red);
+  background: var(--bg-card-hover);
 }
 
-/* Titles that glow */
+/* Titles that used to glow */
+.nav-tab {
+  transition: color var(--transition-fast), transform var(--transition-fast);
+  display: inline-block;
+}
+
+.nav-tab:hover {
+  transform: translateY(-1px);
+}
+
+.nav-tab:active {
+  transform: scale(0.95);
+}
+
 .glow-text {
-  color: var(--neon-cyan);
+  color: var(--text-primary);
+  font-weight: 700;
+  letter-spacing: -0.01em;
 }
 
 .glow-text-purple {
   color: var(--neon-purple);
+  font-weight: 700;
+  letter-spacing: -0.01em;
+}
+
+/* Serif Academic Title */
+.brand-title {
+  font-family: var(--font-family-serif);
+  font-weight: 700;
+  color: var(--text-primary);
+}
+
+/* Form Inputs */
+input[type="file"]::file-selector-button {
+  background: transparent;
+  color: inherit;
+  border: 1px solid var(--glass-border);
+  padding: 0.5rem 1rem;
+  border-radius: 8px;
+  cursor: pointer;
+  margin-right: 1rem;
+  font-family: inherit;
+  transition: background var(--transition-fast);
+}
+
+input[type="file"]::file-selector-button:hover {
+  background: var(--bg-card-hover);
 }
 
 /* Layout utilities */

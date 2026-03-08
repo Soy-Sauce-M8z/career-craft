@@ -8,6 +8,7 @@ import { TeamLobby } from './pages/TeamLobby';
 import { Courses } from './pages/Courses';
 import { Contribute } from './pages/Contribute';
 import { StudentPortfolio } from './pages/StudentPortfolio';
+import { MentorQuestBoard } from './pages/MentorQuestBoard';
 
 const Layout = ({ children }) => {
   const { currentView, setCurrentView, currentUser, theme, toggleTheme } = useDemo();
@@ -16,13 +17,14 @@ const Layout = ({ children }) => {
     <>
       {currentUser && (
         <nav style={{ background: 'var(--bg-card)', backdropFilter: 'var(--glass-blur)', WebkitBackdropFilter: 'var(--glass-blur)', borderBottom: '1px solid var(--glass-border)', display: 'flex', justifyContent: 'space-between', padding: '1rem 2rem', position: 'sticky', top: 0, zIndex: 100 }}>
-          <div style={{ fontWeight: 'bold', fontSize: '1.2rem', color: 'var(--neon-cyan)' }}>Career Craft</div>
+          <div className="brand-title" style={{ fontSize: '1.4rem' }}>Career Craft</div>
           <div style={{ display: 'flex', gap: '1.5rem', alignItems: 'center' }}>
-            <button onClick={() => setCurrentView('dashboard')} style={{ background: 'none', border: 'none', color: currentView === 'dashboard' ? 'var(--neon-cyan)' : 'var(--text-secondary)', cursor: 'pointer', fontFamily: 'var(--font-family-primary)', textTransform: 'uppercase', letterSpacing: '1px', fontWeight: 'bold', textShadow: currentView === 'dashboard' ? '0 0 8px var(--neon-cyan)' : 'none' }}>Dashboard</button>
-            {currentUser === 'student' && <button onClick={() => setCurrentView('courses')} style={{ background: 'none', border: 'none', color: currentView === 'courses' ? 'var(--neon-cyan)' : 'var(--text-secondary)', cursor: 'pointer', fontFamily: 'var(--font-family-primary)', textTransform: 'uppercase', letterSpacing: '1px', fontWeight: 'bold', textShadow: currentView === 'courses' ? '0 0 8px var(--neon-cyan)' : 'none' }}>Courses</button>}
-            {currentUser === 'student' && <button onClick={() => setCurrentView('team_lobby')} style={{ background: 'none', border: 'none', color: currentView === 'team_lobby' ? 'var(--neon-cyan)' : 'var(--text-secondary)', cursor: 'pointer', fontFamily: 'var(--font-family-primary)', textTransform: 'uppercase', letterSpacing: '1px', fontWeight: 'bold', textShadow: currentView === 'team_lobby' ? '0 0 8px var(--neon-cyan)' : 'none' }}>Team Missions</button>}
-            {currentUser === 'student' && <button onClick={() => setCurrentView('contribute')} style={{ background: 'none', border: 'none', color: currentView === 'contribute' ? 'var(--neon-cyan)' : 'var(--text-secondary)', cursor: 'pointer', fontFamily: 'var(--font-family-primary)', textTransform: 'uppercase', letterSpacing: '1px', fontWeight: 'bold', textShadow: currentView === 'contribute' ? '0 0 8px var(--neon-cyan)' : 'none' }}>Contribute</button>}
-            <button onClick={() => setCurrentView('login')} style={{ background: 'none', border: 'none', color: 'var(--neon-red)', cursor: 'pointer', fontFamily: 'var(--font-family-primary)', textTransform: 'uppercase', letterSpacing: '1px', fontWeight: 'bold' }}>Logout</button>
+            <button className="nav-tab" onClick={() => setCurrentView('dashboard')} style={{ background: 'none', border: 'none', color: currentView === 'dashboard' ? 'var(--nav-active)' : 'var(--text-secondary)', cursor: 'pointer', fontFamily: 'var(--font-family-primary)', textTransform: 'uppercase', letterSpacing: '1px', fontWeight: 'bold' }}>Dashboard</button>
+            {currentUser === 'student' && <button className="nav-tab" onClick={() => setCurrentView('courses')} style={{ background: 'none', border: 'none', color: currentView === 'courses' ? 'var(--nav-active)' : 'var(--text-secondary)', cursor: 'pointer', fontFamily: 'var(--font-family-primary)', textTransform: 'uppercase', letterSpacing: '1px', fontWeight: 'bold' }}>Courses</button>}
+            {currentUser === 'student' && <button className="nav-tab" onClick={() => setCurrentView('team_lobby')} style={{ background: 'none', border: 'none', color: currentView === 'team_lobby' ? 'var(--nav-active)' : 'var(--text-secondary)', cursor: 'pointer', fontFamily: 'var(--font-family-primary)', textTransform: 'uppercase', letterSpacing: '1px', fontWeight: 'bold' }}>Party Quests</button>}
+            {currentUser === 'mentor' && <button className="nav-tab" onClick={() => setCurrentView('quest_board')} style={{ background: 'none', border: 'none', color: currentView === 'quest_board' ? 'var(--nav-active)' : 'var(--text-secondary)', cursor: 'pointer', fontFamily: 'var(--font-family-primary)', textTransform: 'uppercase', letterSpacing: '1px', fontWeight: 'bold' }}>Quest Board</button>}
+            <button className="nav-tab" onClick={() => setCurrentView('contribute')} style={{ background: 'none', border: 'none', color: currentView === 'contribute' ? 'var(--nav-active)' : 'var(--text-secondary)', cursor: 'pointer', fontFamily: 'var(--font-family-primary)', textTransform: 'uppercase', letterSpacing: '1px', fontWeight: 'bold' }}>Contribute</button>
+            <button className="nav-tab" onClick={() => setCurrentView('login')} style={{ background: 'none', border: 'none', color: 'var(--neon-red)', cursor: 'pointer', fontFamily: 'var(--font-family-primary)', textTransform: 'uppercase', letterSpacing: '1px', fontWeight: 'bold' }}>Logout</button>
           </div>
         </nav>
       )}
@@ -70,6 +72,7 @@ export const AppContent = () => {
       case 'mission': return <MissionView />;
       case 'team_lobby': return <TeamLobby />;
       case 'courses': return <Courses />;
+      case 'quest_board': return <MentorQuestBoard />;
       case 'contribute': return <Contribute />;
       case 'portfolio': return <StudentPortfolio />;
       default: return <LoginDemo />;

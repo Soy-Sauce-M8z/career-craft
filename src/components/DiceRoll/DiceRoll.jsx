@@ -2,28 +2,42 @@ import React, { useState, useEffect } from 'react';
 
 export const DiceRoll = ({ skillModifier, targetValue, onComplete }) => {
   const [rolling, setRolling] = useState(true);
-  const [baseRoll, setBaseRoll] = useState(1);
+  const [displayRoll, setDisplayRoll] = useState(1 + skillModifier);
   const [total, setTotal] = useState(0);
+  const [raw, setRaw] = useState(0);
 
   useEffect(() => {
     let interval;
+    let timeout;
+    let finalTimeout;
+
     if (rolling) {
       interval = setInterval(() => {
-        setBaseRoll(Math.floor(Math.random() * 20) + 1);
+        setDisplayRoll(Math.floor(Math.random() * 20) + 1 + skillModifier);
       }, 50);
 
-      setTimeout(() => {
+      timeout = setTimeout(() => {
         clearInterval(interval);
         const finalRoll = Math.floor(Math.random() * 20) + 1;
-        setBaseRoll(finalRoll);
-        setTotal(finalRoll + skillModifier);
+        setRaw(finalRoll);
+        const calculatedTotal = finalRoll + skillModifier;
+        setDisplayRoll(calculatedTotal);
+        setTotal(calculatedTotal);
         setRolling(false);
-        setTimeout(() => {
-          onComplete(finalRoll + skillModifier >= targetValue);
+        finalTimeout = setTimeout(() => {
+          onComplete({
+            success: calculatedTotal >= targetValue,
+            total: calculatedTotal,
+            rawRoll: finalRoll
+          });
         }, 2000);
       }, 1500);
     }
-    return () => clearInterval(interval);
+    return () => {
+      clearInterval(interval);
+      clearTimeout(timeout);
+      clearTimeout(finalTimeout);
+    };
   }, []);
 
   return (
@@ -36,11 +50,11 @@ export const DiceRoll = ({ skillModifier, targetValue, onComplete }) => {
       <div className="glass-panel" style={{ textAlign: 'center', minWidth: '300px' }}>
         <h2 className="glow-text">Skill Check</h2>
         <div style={{ fontSize: '4rem', fontWeight: 'bold', margin: '2rem 0', color: rolling ? 'var(--text-primary)' : (total >= targetValue ? 'var(--neon-green)' : 'var(--neon-red)') }}>
-          {baseRoll}
+          {displayRoll}
         </div>
         {!rolling && (
           <div style={{ fontSize: '1.2rem', marginBottom: '1rem' }}>
-            + {skillModifier} (Skill Modifier) = <strong>{total}</strong>
+            {raw} (Roll) + {skillModifier} (Modifier) = <strong>{total}</strong>
           </div>
         )}
         <div style={{ color: 'var(--text-secondary)' }}>Target: {targetValue}</div>

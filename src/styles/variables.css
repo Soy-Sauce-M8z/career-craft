@@ -1,30 +1,46 @@
 :root {
-  /* Neon & Cyberpunk Color Palette */
-  --bg-dark: #0f111a;
-  --bg-card: rgba(25, 28, 41, 0.7);
-  --bg-card-hover: rgba(35, 38, 55, 0.8);
-  --text-primary: #e2e8f0;
-  --text-secondary: #94a3b8;
+  /* Core Academic Palette */
+  --color-black: #0a0908;
+  --color-muted-green: #22333B;
+  --color-beige: #eae0d5;
+  --color-tan: #c6ac8e;
+  --color-brown: #5e503f;
+
+  /* Theme Mapping Dark Mode */
+  --bg-dark: #181F21; /* requested dark mode background */
+  --bg-card: rgba(24, 31, 33, 0.7); /* match main bg */
+  --bg-card-hover: rgba(24, 31, 33, 0.9);
+  --text-primary: var(--color-tan); /* avoid pure white */
+  --text-secondary: var(--color-tan);
   
-  --neon-cyan: #0ff;
-  --neon-purple: #b537f2;
-  --neon-green: #39ff14;
-  --neon-red: #ff2a2a;
-  --neon-yellow: #facc15;
+  --nav-active: var(--color-beige); /* highlight color for dark mode nav */
+  
+  /* Retaining variable names for compatibility, but mapped to new palette */
+  --neon-cyan: var(--color-tan); /* Main prominent color */
+  --neon-purple: var(--color-brown); /* Secondary prominent */
+  
+  /* Semantic Colors - Kept standard for difficulty/correctness */
+  --neon-green: #22c55e;
+  --neon-red: #ef4444;
+  --neon-yellow: #eab308;
 
   /* Global Elements */
-  --bg-blob-1: rgba(181, 55, 242, 0.08);
-  --bg-blob-2: rgba(0, 255, 255, 0.08);
-  --scrollbar-thumb: #334155;
+  --bg-blob-1: rgba(198, 172, 142, 0.05); /* tan blob */
+  --bg-blob-2: rgba(94, 80, 63, 0.05); /* brown blob */
+  --scrollbar-thumb: var(--color-muted-green);
 
   /* Glassmorphism */
-  --glass-border: rgba(255, 255, 255, 0.1);
-  --glass-border-hover: rgba(0, 255, 255, 0.3);
-  --glass-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
-  --glass-blur: blur(12px);
+  --glass-border: rgba(234, 224, 213, 0.1); /* light beige border */
+  --glass-border-hover: rgba(198, 172, 142, 0.2); /* tan hover */
+  --glass-shadow: 0 4px 16px rgba(0, 0, 0, 0.2);
+  --glass-blur: blur(8px);
+  --bg-input: rgba(10, 9, 8, 0.5); /* black translucent */
+  --bg-input-card: rgba(10, 9, 8, 0.3);
+  --chat-border: 1px solid transparent;
 
   /* Typography */
   --font-family-primary: 'Inter', system-ui, sans-serif;
+  --font-family-serif: 'Georgia', 'Times New Roman', serif;
   --font-family-mono: 'JetBrains Mono', 'Fira Code', monospace;
 
   /* Spacing */
@@ -40,27 +56,34 @@
 }
 
 [data-theme='light'] {
-  /* Light Color Palette */
-  --bg-dark: #f8fafc; /* Lighter background */
-  --bg-card: rgba(255, 255, 255, 0.85); /* Light glassmorphism */
-  --bg-card-hover: rgba(241, 245, 249, 0.9);
-  --text-primary: #0f172a; /* Dark text for readability */
-  --text-secondary: #475569;
+  /* Theme Mapping Light Mode */
+  --bg-dark: var(--color-beige); /* Very light beige instead of pure white */
+  --bg-card: rgba(255, 255, 255, 0.6); 
+  --bg-card-hover: rgba(255, 255, 255, 0.8);
+  --text-primary: var(--color-brown); /* avoid pure black */
+  --text-secondary: var(--color-brown);
+
+  --nav-active: var(--color-muted-green); /* highlight color for light mode nav */
   
-  /* Adjusted neon colors to stand out on light bg */
-  --neon-cyan: #0284c7; 
-  --neon-purple: #9333ea;
+  /* Adjusted core colors for light bg */
+  --neon-cyan: var(--color-brown); 
+  --neon-purple: var(--color-muted-green);
+  
+  /* Semantic Colors */
   --neon-green: #16a34a;
   --neon-red: #dc2626;
   --neon-yellow: #ca8a04;
 
   /* Global Elements Overrides */
-  --bg-blob-1: rgba(99, 102, 241, 0.15); /* Indigo blob */
-  --bg-blob-2: rgba(14, 165, 233, 0.15); /* Light blue blob */
-  --scrollbar-thumb: #cbd5e1;
+  --bg-blob-1: rgba(198, 172, 142, 0.2);
+  --bg-blob-2: rgba(94, 80, 63, 0.1);
+  --scrollbar-thumb: var(--color-tan);
 
   /* Glassmorphism adjustments */
-  --glass-border: rgba(0, 0, 0, 0.1);
-  --glass-border-hover: rgba(2, 132, 199, 0.3); /* Based on neon-cyan */
-  --glass-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.15);
+  --glass-border: rgba(94, 80, 63, 0.15); /* brown border */
+  --glass-border-hover: rgba(94, 80, 63, 0.3); 
+  --glass-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+  --bg-input: rgba(255, 255, 255, 0.5);
+  --bg-input-card: rgba(255, 255, 255, 0.8);
+  --chat-border: 1px solid var(--color-tan);
 }

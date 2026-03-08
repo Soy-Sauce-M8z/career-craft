@@ -34,6 +34,16 @@ const initialMentorState = {
   pendingRequests: [
     { id: 'p1', name: 'Sam Taylor', role: 'Frontend Developer', message: 'Looking to learn secure coding practices.' },
     { id: 'p2', name: 'Casey Smith', role: 'Data Science', message: 'Id love guidance on data privacy.' }
+  ],
+  questBoard: [
+    {
+      id: 'q1',
+      title: 'Junior Security Analyst Intern',
+      company: 'CyberShield Corp',
+      type: 'Internship',
+      description: 'Looking for a passionate learner to assist with log monitoring and basic vulnerability scans.',
+      recommendedMentees: []
+    }
   ]
 };
 
@@ -132,6 +142,35 @@ export const DemoProvider = ({ children }) => {
     }));
   };
 
+  const addQuestPosting = (questData) => {
+    setMentor(prev => ({
+      ...prev,
+      questBoard: [
+        {
+          id: `q${Date.now()}`,
+          ...questData,
+          recommendedMentees: []
+        },
+        ...prev.questBoard
+      ]
+    }));
+  };
+
+  const recommendMenteeForQuest = (questId, menteeId) => {
+    setMentor(prev => {
+      const updatedQuests = prev.questBoard.map(quest => {
+        if (quest.id === questId && !quest.recommendedMentees.includes(menteeId)) {
+          return {
+            ...quest,
+            recommendedMentees: [...quest.recommendedMentees, menteeId]
+          };
+        }
+        return quest;
+      });
+      return { ...prev, questBoard: updatedQuests };
+    });
+  };
+
   const value = {
     currentUser,
     loginAs,
@@ -149,6 +188,8 @@ export const DemoProvider = ({ children }) => {
     rejectMentee,
     viewStudentPortfolio,
     activePortfolio,
+    addQuestPosting,
+    recommendMenteeForQuest,
     theme,
     toggleTheme
   };

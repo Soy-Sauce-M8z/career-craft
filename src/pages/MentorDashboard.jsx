@@ -11,9 +11,9 @@ export const MentorDashboard = () => {
   return (
     <div className="container" style={{ paddingBottom: '3rem' }}>
       <div style={{ display: 'flex', alignItems: 'center', gap: '2rem', marginBottom: '3rem' }}>
-        <Avatar alt={mentor.name} size="80px" border="var(--neon-purple)" />
+        <Avatar alt={mentor.name} size="80px" border="var(--color-brown)" glow={false} />
         <div>
-          <h1 className="glow-text-purple">{mentor.name}</h1>
+          <h1 className="glow-text">{mentor.name}</h1>
           <div style={{ fontSize: '1.2rem', color: 'var(--text-secondary)' }}>
             {mentor.role}
           </div>
@@ -22,16 +22,16 @@ export const MentorDashboard = () => {
 
       <div className="grid-cols-2">
         <div style={{ display: 'flex', flexDirection: 'column', gap: 'var(--spacing-lg)' }}>
-          <Card glow style={{ borderColor: 'var(--neon-yellow)' }}>
-            <h3 style={{ color: 'var(--neon-yellow)', marginBottom: '1.5rem' }}>Incoming Mentee Requests</h3>
+          <Card glow style={{ borderColor: 'var(--color-brown)' }}>
+            <h3 style={{ color: 'var(--color-brown)', marginBottom: '1.5rem' }}>Incoming Mentee Requests</h3>
             {mentor.pendingRequests.length === 0 ? (
               <p style={{ color: 'var(--text-secondary)' }}>No pending requests.</p>
             ) : (
               mentor.pendingRequests.map(req => (
-                <div key={req.id} style={{ background: 'rgba(0,0,0,0.3)', padding: '1rem', borderRadius: '8px', marginBottom: '1rem', border: '1px solid rgba(250, 204, 21, 0.3)' }}>
+                <div key={req.id} style={{ background: 'transparent', padding: '1rem', borderRadius: '8px', marginBottom: '1rem', border: '1px solid var(--glass-border)' }}>
                   <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start' }}>
                     <div>
-                      <h4 style={{ margin: 0 }}>{req.name}</h4>
+                      <h4 style={{ margin: 0, marginBottom: '0.5rem' }}>{req.name}</h4>
                       <Badge color="var(--neon-cyan)">{req.role}</Badge>
                     </div>
                   </div>
@@ -58,8 +58,10 @@ export const MentorDashboard = () => {
                 <div key={m.id} style={{ display: 'flex', alignItems: 'center', gap: '1rem', padding: '1rem', borderBottom: '1px solid var(--glass-border)', background: 'rgba(255,255,255,0.02)', borderRadius: '8px', marginBottom: '1rem' }}>
                   <Avatar alt={m.name} size="50px" />
                   <div style={{ flex: 1 }}>
-                    <h4 style={{ margin: 0 }}>{m.name}</h4>
-                    <span style={{ fontSize: '0.85rem', color: 'var(--text-secondary)' }}>{m.role}</span>
+                    <h4 style={{ margin: 0, marginBottom: '0.5rem' }}>{m.name}</h4>
+                    <div>
+                      <Badge color="var(--neon-cyan)">{m.role}</Badge>
+                    </div>
                   </div>
                   <div>
                     {m.recentSubmission ? (
@@ -82,15 +84,15 @@ export const MentorDashboard = () => {
           <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1rem' }}>
             <div style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
               <label style={{ color: 'var(--text-secondary)', fontSize: '0.85rem' }}>Display Name</label>
-              <input type="text" defaultValue={mentor.name} style={{ background: 'rgba(0,0,0,0.5)', border: '1px solid var(--glass-border)', color: 'white', padding: '0.75rem', borderRadius: '4px' }} />
+              <input type="text" defaultValue={mentor.name} style={{ background: 'var(--bg-input)', border: '1px solid var(--glass-border)', color: 'var(--text-primary)', padding: '0.75rem', borderRadius: '4px' }} />
             </div>
             <div style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
               <label style={{ color: 'var(--text-secondary)', fontSize: '0.85rem' }}>Professional Role</label>
-              <input type="text" defaultValue={mentor.role} style={{ background: 'rgba(0,0,0,0.5)', border: '1px solid var(--glass-border)', color: 'white', padding: '0.75rem', borderRadius: '4px' }} />
+              <input type="text" defaultValue={mentor.role} style={{ background: 'var(--bg-input)', border: '1px solid var(--glass-border)', color: 'var(--text-primary)', padding: '0.75rem', borderRadius: '4px' }} />
             </div>
             <div style={{ gridColumn: '1 / -1', display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
               <label style={{ color: 'var(--text-secondary)', fontSize: '0.85rem' }}>Focus Areas (Comma separated)</label>
-              <input type="text" defaultValue="Cybersecurity, Threat Hunting, Career Advice" style={{ background: 'rgba(0,0,0,0.5)', border: '1px solid var(--glass-border)', color: 'white', padding: '0.75rem', borderRadius: '4px' }} />
+              <input type="text" defaultValue="Cybersecurity, Threat Hunting, Career Advice" style={{ background: 'var(--bg-input)', border: '1px solid var(--glass-border)', color: 'var(--text-primary)', padding: '0.75rem', borderRadius: '4px' }} />
             </div>
           </div>
           <div style={{ marginTop: '1rem', display: 'flex', justifyContent: 'flex-end' }}>

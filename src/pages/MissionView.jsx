@@ -12,17 +12,20 @@ export const MissionView = () => {
   const [logs, setLogs] = useState([]);
   const [showDiceRoll, setShowDiceRoll] = useState(false);
   const [missionComplete, setMissionComplete] = useState(false);
+  const [failedRollExplanation, setFailedRollExplanation] = useState(null);
+  const [questReadyToComplete, setQuestReadyToComplete] = useState(false);
   const endOfTerminal = useRef(null);
 
   useEffect(() => {
-    if (activeMissionData?.isComplete && !missionComplete) {
-      setMissionComplete(true);
-    }
+    // Determine mission complete state only when the user clicks 'Complete Quest'
+    // Do nothing on activeMissionData change for auto-completion.
   }, [activeMissionData]);
 
   useEffect(() => {
     endOfTerminal.current?.scrollIntoView({ behavior: 'smooth' });
   }, [terminalHistory]);
+
+  const [pendingAction, setPendingAction] = useState(null);
 
   const handleTerminalSubmit = (e) => {
     if (e.key === 'Enter' && terminalInput.trim()) {
@@ -30,11 +33,12 @@ export const MissionView = () => {
       setTerminalHistory(prev => [...prev, `> ${command}`]);
       setTerminalInput('');
 
-      // Mock Simulator Logic
+      // New Simulator Logic with 1d20
       if (activeMissionData.currentTaskIndex === 0 && command === 'open terminal') {
         completeTask();
-        setTerminalHistory(prev => [...prev, 'Terminal opened successfully. Try checking logs.']);
-      } else if (activeMissionData.currentTaskIndex === 1 && (command === 'check logs' || command === 'cat /var/log/auth.log')) {
+        setTerminalHistory(prev => [...prev, 'Terminal opened successfully. Usage: `check logs`']);
+      } 
+      else if (activeMissionData.currentTaskIndex === 1 && (command === 'check logs' || command === 'cat /var/log/auth.log')) {
         completeTask();
         setLogs([
           '[11:42:01] INFO  - Normal login user: admin',
@@ -42,29 +46,47 @@ export const MissionView = () => {
           '[11:43:11] WARN  - Failed login user: root from IP 172.31.24.8',
           '[11:43:12] ERROR - Multiple failed logins. Potential Brute Force.'
         ]);
-        setTerminalHistory(prev => [...prev, 'Logs fetched. Notice suspicious IP? identify it.']);
-      } else if (activeMissionData.currentTaskIndex === 2 && command.includes('172.31.24.8')) {
-        completeTask();
-        setTerminalHistory(prev => [...prev, 'Target IP 172.31.24.8 locked. How do you want to handle it? Try "block ip".']);
-      } else if (activeMissionData.currentTaskIndex === 3 && command.includes('block ip')) {
+        setTerminalHistory(prev => [...prev, '[SYSTEM] auth.log parsed and loaded. 341 lines verified.', 'Next step: `identify ip <ip_address>`']);
+      } 
+      else if (activeMissionData.currentTaskIndex === 2 && command.startsWith('identify ip')) {
+        const ip = command.replace('identify ip', '').trim();
+        if (ip === '172.31.24.8') {
+          setTerminalHistory(prev => [...prev, `[SUCCESS] IP 172.31.24.8 successfully identified as source of brute force.`, 'Next step: `block ip`']);
+          completeTask();
+        } else if (ip === '') {
+          setTerminalHistory(prev => [...prev, `Usage: identify ip <ip_address>`]);
+        } else {
+          setTerminalHistory(prev => [...prev, `[FAILED] ${ip} is not the primary source of the brute force attack. Review the logs and try again.`]);
+        }
+      }
+      else if (activeMissionData.currentTaskIndex === 3 && command === 'block ip') {
+        setPendingAction('blockIP');
         setShowDiceRoll(true);
-      } else {
-        setTerminalHistory(prev => [...prev, `Command not found or irrelevant right now: ${command}`]);
+      }
+      else {
+        setTerminalHistory(prev => [...prev, `Command not recognized or out of sequence: ${command}`]);
       }
     }
   };
 
-  const handleDiceRollComplete = (success) => {
+  const handleDiceRollComplete = (result) => {
     setShowDiceRoll(false);
-    if (success) {
-      setTerminalHistory(prev => [...prev, 'SUCCESS: Firewall rule updated. IP blocked.']);
-      completeTask();
-    } else {
-      setTerminalHistory(prev => [...prev, 'FAILED: Insufficient permission or syntax error. Try again.', '> block ip']);
+    const { total } = result;
+
+    if (pendingAction === 'blockIP') {
+      if (total < 10) {
+        setTerminalHistory(prev => [...prev, `[Roll: ${total}] FAILED: The hacker evaded the initial block! They are pivoting.`]);
+        setFailedRollExplanation("Block IP Failed: The attacker noticed your probe and evaded the initial firewall rule by pivoting their connection. You must act faster. Close this modal and type 'block ip' to try again.");
+      } else {
+        setTerminalHistory(prev => [...prev, `[Roll: ${total}] SUCCESS: Firewall rule updated seamlessly. IP blocked without alerting the attacker.`, '>> QUEST METRICS MET. <<']);
+        completeTask();
+        setQuestReadyToComplete(true);
+      }
     }
+    setPendingAction(null);
   };
 
-  if (!activeMissionData) return <div className="container" style={{ textAlign: 'center', marginTop: '4rem' }}><h2 className="glow-text">No active mission.</h2><Button onClick={() => setCurrentView('dashboard')}>Return to Dashboard</Button></div>;
+  if (!activeMissionData) return <div className="container" style={{ textAlign: 'center', marginTop: '4rem' }}><h2 className="glow-text">No active quest.</h2><Button onClick={() => setCurrentView('dashboard')}>Return to Dashboard</Button></div>;
 
   return (
     <div className="container" style={{ display: 'grid', gridTemplateColumns: '1fr 300px', gap: 'var(--spacing-lg)', height: 'calc(100vh - 100px)' }}>
@@ -103,7 +125,7 @@ export const MissionView = () => {
       {/* Right side overlays */}
       <div style={{ display: 'flex', flexDirection: 'column', gap: 'var(--spacing-lg)' }}>
         <Card glow style={{ borderColor: 'var(--neon-cyan)' }}>
-          <h3 className="glow-text">Mission Objectives</h3>
+          <h3 className="glow-text">Quest Objectives</h3>
           <p style={{ color: 'var(--text-secondary)', fontSize: '0.9rem', marginBottom: '1rem' }}>{activeMissionData.title}</p>
           <ul style={{ listStyle: 'none', padding: 0 }}>
             {activeMissionData.tasks.map((task, idx) => (
@@ -120,17 +142,23 @@ export const MissionView = () => {
         </Card>
 
         <Card style={{ flex: 1 }}>
-          <h3 style={{ borderBottom: '1px solid var(--glass-border)', paddingBottom: '0.5rem' }}>Team Messages</h3>
+          <h3 style={{ borderBottom: '1px solid var(--glass-border)', paddingBottom: '0.5rem' }}>Party Messages</h3>
           <div style={{ marginTop: '1rem', display: 'flex', flexDirection: 'column', gap: '1rem' }}>
-            <div style={{ background: 'rgba(255,255,255,0.05)', padding: '0.75rem', borderRadius: '8px' }}>
+            <div style={{ background: 'rgba(255,255,255,0.05)', padding: '0.75rem', borderRadius: '8px', border: 'var(--chat-border)' }}>
               <strong style={{ color: 'var(--neon-purple)', display: 'block', fontSize: '0.85rem' }}>PM Morgan:</strong>
               <span style={{ fontSize: '0.9rem' }}>We're seeing unusual traffic. Can you investigate?</span>
             </div>
             {activeMissionData.currentTaskIndex >= 2 && (
-              <div style={{ background: 'rgba(255,255,255,0.05)', padding: '0.75rem', borderRadius: '8px' }}>
-                <strong style={{ color: 'var(--neon-yellow)', display: 'block', fontSize: '0.85rem' }}>Dev Taylor:</strong>
-                <span style={{ fontSize: '0.9rem' }}>I see you found it. Feel free to block the IP if you verify it's hostile.</span>
+              <div style={{ background: 'rgba(0,0,0,0.2)', padding: '0.75rem', borderRadius: '4px', borderLeft: '2px solid var(--neon-cyan)', border: 'var(--chat-border)' }}>
+                <strong style={{ color: 'var(--neon-purple)', display: 'block', fontSize: '0.85rem' }}>Dev Taylor:</strong>
+                <span style={{ fontSize: '0.9rem', color: 'var(--text-secondary)' }}>It looks like multiple endpoints are hitting the DB concurrently.</span>
               </div>
+            )}
+            
+            {questReadyToComplete && !missionComplete && (
+               <Button className="btn-neon-purple" style={{ padding: '1rem', fontSize: '1.2rem', marginTop: '1rem' }} onClick={() => setMissionComplete(true)}>
+                 Complete Quest
+               </Button>
             )}
           </div>
         </Card>
@@ -144,12 +172,22 @@ export const MissionView = () => {
         />
       )}
 
+      {failedRollExplanation && (
+        <GlassModal title="Simulation Encounter" onClose={() => setFailedRollExplanation(null)}>
+          <div style={{ textAlign: 'center', padding: '1rem' }}>
+            <div style={{ fontSize: '3rem', marginBottom: '1rem' }}>⚠️</div>
+            <p style={{ fontSize: '1.1rem', marginBottom: '1.5rem', lineHeight: '1.6' }}>{failedRollExplanation}</p>
+            <Button onClick={() => setFailedRollExplanation(null)} style={{ width: '100%' }}>Acknowledge & Try Again</Button>
+          </div>
+        </GlassModal>
+      )}
+
       {missionComplete && (
-        <GlassModal title="Mission Complete!" onClose={() => setCurrentView('dashboard')}>
+        <GlassModal title="Quest Complete!" onClose={() => setCurrentView('dashboard')}>
           <div style={{ textAlign: 'center' }}>
             <div style={{ fontSize: '4rem', marginBottom: '1rem' }}>🏆</div>
             <p style={{ fontSize: '1.2rem', marginBottom: '1rem' }}>You successfully neutralized the threat!</p>
-            <p style={{ color: 'var(--neon-purple)', fontWeight: 'bold', fontSize: '1.5rem', marginBottom: '2rem' }}>+500 XP Earned</p>
+            <p style={{ color: 'var(--neon-green)', fontWeight: 'bold', fontSize: '1.5rem', marginBottom: '2rem' }}>+500 XP Earned</p>
             <Button onClick={() => setCurrentView('dashboard')} style={{ width: '100%' }}>Return to Dashboard</Button>
           </div>
         </GlassModal>
