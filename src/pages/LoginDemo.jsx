@@ -15,15 +15,15 @@ export const LoginDemo = () => {
 
       <div className="grid-cols-2" style={{ maxWidth: '800px', width: '100%' }}>
         <Card hoverable glow style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', padding: '3rem 2rem' }}>
-          <h2 style={{ color: 'var(--neon-cyan)', textAlign: 'center' }}>Learner Demo</h2>
+          <h2 style={{ color: 'var(--neon-cyan)', textAlign: 'center' }}>Student Login</h2>
           <p style={{ textAlign: 'center', color: 'var(--text-secondary)', marginBottom: '2rem' }}>Experience the immersive career simulator and gamified progression.</p>
-          <Button onClick={() => loginAs('student')} style={{ width: '100%' }}>Login as Student</Button>
+          <Button onClick={() => loginAs('student')} style={{ width: '100%' }}>Login or Sign Up</Button>
         </Card>
 
         <Card hoverable glow style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', padding: '3rem 2rem' }}>
-          <h2 style={{ color: 'var(--neon-cyan)', textAlign: 'center' }}>Mentor Demo</h2>
+          <h2 style={{ color: 'var(--neon-cyan)', textAlign: 'center' }}>Mentor Login</h2>
           <p style={{ textAlign: 'center', color: 'var(--text-secondary)', marginBottom: '2rem' }}>Review submissions and approve upcoming talent for mentorship.</p>
-          <Button onClick={() => loginAs('mentor')} style={{ width: '100%' }}>Login as Mentor</Button>
+          <Button onClick={() => loginAs('mentor')} style={{ width: '100%' }}>Login or Sign Up</Button>
         </Card>
       </div>
     </div>
