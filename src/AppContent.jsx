@@ -10,7 +10,7 @@ import { Contribute } from './pages/Contribute';
 import { StudentPortfolio } from './pages/StudentPortfolio';
 
 const Layout = ({ children }) => {
-  const { currentView, setCurrentView, currentUser } = useDemo();
+  const { currentView, setCurrentView, currentUser, theme, toggleTheme } = useDemo();
 
   return (
     <>
@@ -29,6 +29,33 @@ const Layout = ({ children }) => {
       <main style={{ padding: currentUser ? '2rem' : 0 }}>
         {children}
       </main>
+      <button 
+        onClick={toggleTheme}
+        style={{
+          position: 'fixed',
+          bottom: '2rem',
+          right: '2rem',
+          background: 'var(--bg-card)',
+          border: '1px solid var(--glass-border)',
+          borderRadius: '50%',
+          width: '50px',
+          height: '50px',
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
+          cursor: 'pointer',
+          boxShadow: 'var(--glass-shadow)',
+          zIndex: 1000,
+          color: 'var(--neon-cyan)',
+          fontSize: '1.5rem',
+          backdropFilter: 'var(--glass-blur)',
+          WebkitBackdropFilter: 'var(--glass-blur)',
+          transition: 'all var(--transition-normal)'
+        }}
+        title="Toggle Theme"
+      >
+        {theme === 'light' ? '🌙' : '☀️'}
+      </button>
     </>
   );
 };

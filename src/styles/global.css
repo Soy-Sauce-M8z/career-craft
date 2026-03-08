@@ -23,8 +23,8 @@ body {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   background-image: 
-    radial-gradient(circle at 15% 50%, rgba(181, 55, 242, 0.08), transparent 25%),
-    radial-gradient(circle at 85% 30%, rgba(0, 255, 255, 0.08), transparent 25%);
+    radial-gradient(circle at 15% 50%, var(--bg-blob-1), transparent 25%),
+    radial-gradient(circle at 85% 30%, var(--bg-blob-2), transparent 25%);
   background-attachment: fixed;
 }
 
@@ -67,7 +67,7 @@ p {
 }
 
 ::-webkit-scrollbar-thumb {
-  background: #334155;
+  background: var(--scrollbar-thumb);
   border-radius: 4px;
 }
 

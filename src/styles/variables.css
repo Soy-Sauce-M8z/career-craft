@@ -12,8 +12,14 @@
   --neon-red: #ff2a2a;
   --neon-yellow: #facc15;
 
+  /* Global Elements */
+  --bg-blob-1: rgba(181, 55, 242, 0.08);
+  --bg-blob-2: rgba(0, 255, 255, 0.08);
+  --scrollbar-thumb: #334155;
+
   /* Glassmorphism */
   --glass-border: rgba(255, 255, 255, 0.1);
+  --glass-border-hover: rgba(0, 255, 255, 0.3);
   --glass-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
   --glass-blur: blur(12px);
 
@@ -31,4 +37,30 @@
   /* Transitions */
   --transition-fast: 0.15s ease-in-out;
   --transition-normal: 0.3s ease-in-out;
+}
+
+[data-theme='light'] {
+  /* Light Color Palette */
+  --bg-dark: #f8fafc; /* Lighter background */
+  --bg-card: rgba(255, 255, 255, 0.85); /* Light glassmorphism */
+  --bg-card-hover: rgba(241, 245, 249, 0.9);
+  --text-primary: #0f172a; /* Dark text for readability */
+  --text-secondary: #475569;
+  
+  /* Adjusted neon colors to stand out on light bg */
+  --neon-cyan: #0284c7; 
+  --neon-purple: #9333ea;
+  --neon-green: #16a34a;
+  --neon-red: #dc2626;
+  --neon-yellow: #ca8a04;
+
+  /* Global Elements Overrides */
+  --bg-blob-1: rgba(99, 102, 241, 0.15); /* Indigo blob */
+  --bg-blob-2: rgba(14, 165, 233, 0.15); /* Light blue blob */
+  --scrollbar-thumb: #cbd5e1;
+
+  /* Glassmorphism adjustments */
+  --glass-border: rgba(0, 0, 0, 0.1);
+  --glass-border-hover: rgba(2, 132, 199, 0.3); /* Based on neon-cyan */
+  --glass-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.15);
 }
