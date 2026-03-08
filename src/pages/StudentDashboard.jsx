@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import { useDemo } from '../context/DemoContext';
 import { Card } from '../components/UI/Card';
 import { Button } from '../components/UI/Button';
@@ -8,6 +8,63 @@ import { Avatar } from '../components/UI/Avatar';
 
 export const StudentDashboard = () => {
   const { student, setStudent, startMission } = useDemo();
+  
+  // AI Career Chat State
+  const [chatHistory, setChatHistory] = useState([
+    { role: 'ai', text: "Hello! I'm your AI Career Guide. How can I help you level up your skills today?" }
+  ]);
+  const [currentQuestion, setCurrentQuestion] = useState('');
+  const chatEndRef = useRef(null);
+
+  useEffect(() => {
+    // Only scroll the specific chat container instead of the whole page
+    if (chatEndRef.current) {
+      chatEndRef.current.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+    }
+  }, [chatHistory]);
+
+  const handleAskAI = (e) => {
+    e.preventDefault();
+    if (!currentQuestion.trim()) return;
+
+    // Add User Message
+    const userMsg = { role: 'user', text: currentQuestion };
+    setChatHistory(prev => [...prev, userMsg]);
+
+    const qLower = currentQuestion.toLowerCase();
+    setCurrentQuestion('');
+
+    // Mock AI Response based on keywords
+    setTimeout(() => {
+      let aiMsg = { role: 'ai', text: '', links: [] };
+
+      if (/^(hi|hello|hey|greetings|howdy)\b/.test(qLower) || qLower.includes('how are you')) {
+        aiMsg.text = "Hello there! I'm here to help you navigate your career path. You can ask me about resume building, study materials, portfolio projects, or interview prep!";
+      } else if (qLower.includes('cybersecurity resume') || qLower.includes('resume')) {
+        aiMsg.text = "To boost a cybersecurity resume, it's highly recommended to earn recognized certifications and highlight hands-on labs. The CompTIA Security+ is a foundational cert that validates baseline skills.";
+        aiMsg.links = [{ title: 'CompTIA Security+ Certification', url: 'https://www.comptia.org/certifications/security' }];
+      } else if (qLower.includes('study material') || qLower.includes('youtube') || qLower.includes('video')) {
+        aiMsg.text = "There's a wealth of great study material available for free on YouTube! Check out these top channels for cybersecurity tutorials and practical labs:";
+        aiMsg.links = [
+          { title: "John Hammond's Channel", url: 'https://www.youtube.com/c/JohnHammond010' },
+          { title: "NetworkChuck", url: 'https://www.youtube.com/c/NetworkChuck' }
+        ];
+      } else if (qLower.includes('project') || qLower.includes('portfolio') || qLower.includes('experience')) {
+        aiMsg.text = "Building a portfolio is crucial. I recommend starting with setting up a home lab using VirtualBox or Proxmox to practice Active Directory configuration and Kali Linux tooling.";
+        aiMsg.links = [{ title: 'Building a Home Lab Guide', url: 'https://www.cyberseek.org/homelab' }];
+      } else if (qLower.includes('interview') || qLower.includes('job') || qLower.includes('hire')) {
+        aiMsg.text = "For interviews, be prepared to discuss the OWASP Top 10 and how you would respond to a basic incident scenario. Reviewing common technical questions is key.";
+        aiMsg.links = [{ title: 'OWASP Top 10', url: 'https://owasp.org/www-project-top-ten/' }];
+      } else if (qLower.includes('language') || qLower.includes('code') || qLower.includes('scripting')) {
+        aiMsg.text = "Python and Bash are the most heavily utilized scripting languages in security. Learning how to automate tasks and interact with APIs in Python will give you a significant edge.";
+        aiMsg.links = [{ title: 'Automate the Boring Stuff (Python)', url: 'https://automatetheboringstuff.com/' }];
+      } else {
+        aiMsg.text = "I'm still learning about that specific topic! But I can definitely help you with finding study materials, planning portfolio projects, or preparing for technical interviews. What would you like to explore?";
+      }
+
+      setChatHistory(prev => [...prev, aiMsg]);
+    }, 600);
+  };
 
   return (
     <div className="container" style={{ paddingBottom: '3rem' }}>
@@ -59,10 +116,57 @@ export const StudentDashboard = () => {
                   </div>
 
                   <strong>Recommended Courses to bridge gap:</strong>
-                  <div style={{ marginTop: '0.5rem' }}>
+                  <div style={{ marginTop: '0.5rem', marginBottom: '2rem' }}>
                     {student.resumeAnalysis.recommendedCourses.map(course => (
                       <Badge key={course} color="var(--neon-green)">{course}</Badge>
                     ))}
+                  </div>
+
+                  {/* AI Chat Interface */}
+                  <div style={{ borderTop: '1px solid var(--glass-border)', paddingTop: '1.5rem', marginTop: '1rem' }}>
+                    <h4 style={{ color: 'var(--text-primary)', marginBottom: '1rem', display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
+                      <span style={{ fontSize: '1.2rem' }}>💬</span> Guide Chat
+                    </h4>
+                    
+                    <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem', maxHeight: '300px', overflowY: 'auto', paddingRight: '0.5rem', marginBottom: '1rem' }}>
+                      {chatHistory.map((msg, idx) => (
+                        <div key={idx} style={{ alignSelf: msg.role === 'user' ? 'flex-end' : 'flex-start', maxWidth: '85%' }}>
+                          <div style={{ 
+                            background: msg.role === 'user' ? 'var(--bg-input-card)' : 'rgba(255,255,255,0.05)', 
+                            border: `1px solid ${msg.role === 'user' ? 'var(--chat-border)' : 'var(--glass-border)'}`,
+                            padding: '0.75rem 1rem', 
+                            borderRadius: msg.role === 'user' ? '12px 12px 0 12px' : '12px 12px 12px 0',
+                            color: 'var(--text-primary)',
+                            fontSize: '0.95rem',
+                            lineHeight: '1.4'
+                          }}>
+                            {msg.text}
+                          </div>
+                          
+                          {msg.links && msg.links.length > 0 && (
+                            <div style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem', marginTop: '0.5rem', alignItems: 'flex-start' }}>
+                              {msg.links.map((link, i) => (
+                                <a key={i} href={link.url} target="_blank" rel="noopener noreferrer" style={{ display: 'inline-flex', alignItems: 'center', gap: '0.5rem', background: 'var(--bg-card-hover)', color: 'var(--neon-cyan)', padding: '0.5rem 0.75rem', borderRadius: '4px', textDecoration: 'none', border: '1px solid var(--neon-cyan)', fontSize: '0.85rem', transition: 'transform 0.2s', ':hover': { transform: 'translateY(-2px)' } }}>
+                                  🔗 {link.title}
+                                </a>
+                              ))}
+                            </div>
+                          )}
+                        </div>
+                      ))}
+                      <div ref={chatEndRef} />
+                    </div>
+
+                    <form onSubmit={handleAskAI} style={{ display: 'flex', gap: '0.5rem' }}>
+                      <input 
+                        type="text" 
+                        value={currentQuestion}
+                        onChange={(e) => setCurrentQuestion(e.target.value)}
+                        placeholder="Ask for resource links or career advice..."
+                        style={{ flex: 1, background: 'var(--bg-input)', border: '1px solid var(--glass-border)', color: 'var(--text-primary)', padding: '0.75rem', borderRadius: '8px', fontFamily: 'inherit' }}
+                      />
+                      <Button type="submit">Send</Button>
+                    </form>
                   </div>
                 </>
               )}
