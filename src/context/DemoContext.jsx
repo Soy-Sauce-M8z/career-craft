@@ -1,4 +1,4 @@
-import React, { createContext, useState, useContext } from 'react';
+import React, { createContext, useState, useContext, useEffect } from 'react';
 
 const DemoContext = createContext();
 
@@ -53,6 +53,15 @@ export const DemoProvider = ({ children }) => {
   const [currentView, setCurrentView] = useState('login'); // login, dashboard, mission, team_lobby
   const [activeMissionData, setActiveMissionData] = useState(null);
   const [activePortfolio, setActivePortfolio] = useState(null);
+  const [theme, setTheme] = useState('dark');
+
+  useEffect(() => {
+    document.documentElement.setAttribute('data-theme', theme);
+  }, [theme]);
+
+  const toggleTheme = () => {
+    setTheme(prev => prev === 'dark' ? 'light' : 'dark');
+  };
 
   const loginAs = (persona) => {
     setCurrentUser(persona);
@@ -139,7 +148,9 @@ export const DemoProvider = ({ children }) => {
     approveMentee,
     rejectMentee,
     viewStudentPortfolio,
-    activePortfolio
+    activePortfolio,
+    theme,
+    toggleTheme
   };
 
   return <DemoContext.Provider value={value}>{children}</DemoContext.Provider>;
