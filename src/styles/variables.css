@@ -1,0 +1,34 @@
+:root {
+  /* Neon & Cyberpunk Color Palette */
+  --bg-dark: #0f111a;
+  --bg-card: rgba(25, 28, 41, 0.7);
+  --bg-card-hover: rgba(35, 38, 55, 0.8);
+  --text-primary: #e2e8f0;
+  --text-secondary: #94a3b8;
+  
+  --neon-cyan: #0ff;
+  --neon-purple: #b537f2;
+  --neon-green: #39ff14;
+  --neon-red: #ff2a2a;
+  --neon-yellow: #facc15;
+
+  /* Glassmorphism */
+  --glass-border: rgba(255, 255, 255, 0.1);
+  --glass-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
+  --glass-blur: blur(12px);
+
+  /* Typography */
+  --font-family-primary: 'Outfit', 'Inter', system-ui, sans-serif;
+  --font-family-mono: 'JetBrains Mono', 'Fira Code', monospace;
+
+  /* Spacing */
+  --spacing-xs: 0.25rem;
+  --spacing-sm: 0.5rem;
+  --spacing-md: 1rem;
+  --spacing-lg: 1.5rem;
+  --spacing-xl: 2rem;
+
+  /* Transitions */
+  --transition-fast: 0.15s ease-in-out;
+  --transition-normal: 0.3s ease-in-out;
+}

@@ -1,0 +1,104 @@
+/* Glass Panel Base */
+.glass-panel {
+  background: var(--bg-card);
+  backdrop-filter: var(--glass-blur);
+  -webkit-backdrop-filter: var(--glass-blur);
+  border: 1px solid var(--glass-border);
+  box-shadow: var(--glass-shadow);
+  border-radius: 16px;
+  padding: var(--spacing-lg);
+  transition: transform var(--transition-fast), border-color var(--transition-fast);
+}
+
+.glass-panel:hover {
+  border-color: rgba(0, 255, 255, 0.3);
+  transform: translateY(-2px);
+}
+
+/* Neon Button */
+.btn-neon {
+  background: transparent;
+  color: var(--neon-cyan);
+  font-family: var(--font-family-primary);
+  font-weight: 600;
+  font-size: 1rem;
+  padding: 0.75rem 1.5rem;
+  border: 1px solid var(--neon-cyan);
+  border-radius: 8px;
+  cursor: pointer;
+  position: relative;
+  overflow: hidden;
+  transition: all var(--transition-fast);
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+.btn-neon:hover {
+  background: var(--neon-cyan);
+  color: var(--bg-dark);
+  transform: scale(1.02);
+}
+
+.btn-neon:active {
+  transform: scale(0.98);
+}
+
+.btn-neon-purple {
+  color: var(--neon-purple);
+  border-color: var(--neon-purple);
+}
+
+.btn-neon-purple:hover {
+  background: var(--neon-purple);
+  color: #fff;
+}
+
+.btn-neon-red {
+  color: var(--neon-red);
+  border-color: var(--neon-red);
+}
+
+.btn-neon-red:hover {
+  background: var(--neon-red);
+  color: #fff;
+}
+
+/* Titles that glow */
+.glow-text {
+  color: var(--neon-cyan);
+}
+
+.glow-text-purple {
+  color: var(--neon-purple);
+}
+
+/* Layout utilities */
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 var(--spacing-lg);
+}
+
+.flex-center {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.flex-between {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.grid-cols-2 {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: var(--spacing-lg);
+}
+
+.grid-cols-3 {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: var(--spacing-lg);
+}
