@@ -18,7 +18,7 @@
   --glass-blur: blur(12px);
 
   /* Typography */
-  --font-family-primary: 'Outfit', 'Inter', system-ui, sans-serif;
+  --font-family-primary: 'Inter', system-ui, sans-serif;
   --font-family-mono: 'JetBrains Mono', 'Fira Code', monospace;
 
   /* Spacing */
